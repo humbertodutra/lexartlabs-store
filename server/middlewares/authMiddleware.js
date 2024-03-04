@@ -1,8 +1,10 @@
 const jwt = require('jsonwebtoken');
-const SECRET_KEY = process.env.MY_SECRET; // Certifique-se de ter definido esta variável de ambiente
+const SECRET_KEY = process.env.MY_SECRET;
 
 const verifyToken = (req, res, next) => {
-  const token = req.headers['authorization'] ? req.headers['authorization'].split(' ')[1] : null;
+  console.log(req.headers['authorization'])
+  const token = req.headers['authorization'];
+  console.log(token)
 
   if (!token) {
     return res.status(403).send({ message: "A token is required for authentication" });
@@ -11,10 +13,10 @@ const verifyToken = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, SECRET_KEY);
     req.user = decoded;
+    next();
   } catch (err) {
     return res.status(401).send({ message: "Invalid Token" });
   }
-  return next();
 };
 
-module.exports = verifyToken;
+module.exports = { verifyToken };
