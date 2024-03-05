@@ -10,6 +10,11 @@ const createUser = async (userData) => {
   return await User.create({ email, password: hashedPassword });
 };
 
+const findUserByEmail = async (email) => {
+  return User.findOne({ where: { email } });
+};
+
+
 const loginUser = async (userData) => {
   const { email, password } = userData;
 
@@ -34,5 +39,6 @@ const loginUser = async (userData) => {
 
 module.exports = {
   createUser,
-  loginUser
+  loginUser,
+  findUserByEmail
 };
