@@ -11,12 +11,11 @@ function DashboardPage() {
     const navigate = useNavigate();
     
   useEffect(() => {
-    console.log('userrrrrrrrrrrrrrrrr', user);
+  
    
 
 const fetchProducts = async () => {
   if (user && user.token) {
-    console.log('api', process.env.API_ENDPOINT)
     const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/products/`, {
       method: 'GET',
       headers: {
@@ -27,16 +26,15 @@ const fetchProducts = async () => {
 
     if (!response.ok) {
     
-      console.error("Falha ao buscar produtos:", response.statusText);
+      console.error("Failed to search for products:", response.statusText);
   
       return;
     }
 
     const data = await response.json();
-    console.log('data', data);
     setProducts(data);
   } else {
-    console.log("Token de usuário não disponível");
+    console.log("User token not available");
   
   }
 };
@@ -60,7 +58,7 @@ const fetchProducts = async () => {
         </>
       ) : (
         <>
-        <p>Você precisa estar logado para ver os produtos.</p>
+        <p>You need to be logged in to view the products</p>
         <button onClick={handleBackToLogin}>Back To Login Page</button>
         </>
       )}

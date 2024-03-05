@@ -33,7 +33,6 @@ function AddProduct({ setProducts, user }) {
 
     if (response.ok) {
       const createdProduct = await response.json()
-      console.log(createdProduct)
       setProducts(prevProducts => [...prevProducts, createdProduct]);
       setNewProduct({ name: '', brand: '', model: '', color: '', price: '' }); // Reset form fields
       setShowForm(false); // Hide form after successful submission
