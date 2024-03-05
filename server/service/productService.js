@@ -88,67 +88,71 @@ const getProductById = async (productId) => {
 	}
 };
 
-const updateProduct = async (productId, productData) => {
-	try {
-		
-		const product = await Product.findByPk(productId);
-		if (!product) {
-			throw new Error('Product not found');
-		}
+	const updateProduct = async (productId, productData) => {
+		try {
+			console.log('productId', productData);
+			
+			const product = await Product.findByPk(productId);
+			if (!product) {
+				throw new Error('Product not found');
+			}
 
-		let productDetails, variations;
+			let productDetails, variations;
 
-		if (!Array.isArray(productData)) {
-			productDetails = {
-				name: productData.name,
-				brand: productData.details ? productData.details.brand : productData.brand,
-				model: productData.details ? productData.details.model : productData.model
-			};
-			variations = [
-				{
-					color: productData.details ? productData.details.color : productData.color,
-					price: productData.price
+			if (!Array.isArray(productData)) {
+				productDetails = {
+					name: productData.name,
+					brand: productData.details ? productData.details.brand : productData.brand,
+					model: productData.details ? productData.details.model : productData.model
+				};
+				if (productData.Variations && Array.isArray(productData.Variations)) {
+					variations = productData.Variations;
+				} else {
+					// If not, construct the variations array from other properties as before
+					variations = [{
+						color: productData.details ? productData.details.color : productData.color,
+						price: productData.price
+					}];
 				}
-			];
-		} else {
-			const matchingProductData = productData.find((item) => item.name === product.name);
-			if (!matchingProductData) {
-				throw new Error('Matching product data not found in the array');
-			}
-			productDetails = {
-				name: matchingProductData.name,
-				brand: matchingProductData.brand,
-				model: matchingProductData.model
-			};
-			variations = matchingProductData.data;
-		}
-
-		await product.update(productDetails);
-
-		const existingVariations = await Variation.findAll({ where: { productId } });
-
-		for (const existingVariation of existingVariations) {
-			if (!variations.some((variation) => variation.color === existingVariation.color)) {
-				await existingVariation.destroy();
-			}
-		}
-
-		for (const variationData of variations) {
-			const existingVariation = existingVariations.find((variation) => variation.color === variationData.color);
-			if (existingVariation) {
-				await existingVariation.update(variationData);
 			} else {
-				await Variation.create({ ...variationData, productId });
+				const matchingProductData = productData.find((item) => item.name === product.name);
+				if (!matchingProductData) {
+					throw new Error('Matching product data not found in the array');
+				}
+				productDetails = {
+					name: matchingProductData.name,
+					brand: matchingProductData.brand,
+					model: matchingProductData.model
+				};
+				variations = matchingProductData.data;
 			}
-		}
 
-		return await Product.findByPk(productId, {
-			include: [ { model: Variation, as: 'Variations' } ]
-		});
-	} catch (error) {
-		throw new Error(`Error updating product and variations: ${error.message}`);
-	}
-};
+			await product.update(productDetails);
+
+			const existingVariations = await Variation.findAll({ where: { productId } });
+
+			for (const existingVariation of existingVariations) {
+				if (!variations.some((variation) => variation.color === existingVariation.color)) {
+					await existingVariation.destroy();
+				}
+			}
+
+			for (const variationData of variations) {
+				const existingVariation = existingVariations.find((variation) => variation.color === variationData.color);
+				if (existingVariation) {
+					await existingVariation.update(variationData);
+				} else {
+					await Variation.create({ ...variationData, productId });
+				}
+			}
+
+			return await Product.findByPk(productId, {
+				include: [ { model: Variation, as: 'Variations' } ]
+			});
+		} catch (error) {
+			throw new Error(`Error updating product and variations: ${error.message}`);
+		}
+	};
 
 const deleteProduct = async (productId) => {
 	try {

@@ -1,4 +1,23 @@
 const userService = require('../service/userService');
+const jwt = require('jsonwebtoken');
+
+
+const verifyToken = (req, res) => {
+	const token = req.headers['authorization'];
+	if (!token) {
+		return res.status(403).send({ message: 'A token is required for authentication' });
+	}
+	try {
+		const decoded = jwt.verify(token, process.env.MY_SECRET);
+		req.user = decoded;
+		console.log(decoded);
+		return res.status(200).send({ message: 'Valid Token' });
+	} catch (err) {
+		return res.status(401).send({ message: 'Invalid Token' });
+	}
+
+}
+
 
 const registerUser = async (req, res) => {
 	try {
@@ -34,5 +53,6 @@ const loginUser = async (req, res) => {
 
 module.exports = {
 	registerUser,
-	loginUser
+	loginUser,
+	verifyToken,
 };

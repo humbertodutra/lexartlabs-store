@@ -5,6 +5,8 @@ const authMiddleware = require("../middlewares/authMiddleware");
 const productController = require('../controllers/productController');
 
 // User Routes
+
+router.post('/users/verifyToken', userController.verifyToken);
 router.post('/users/register', userController.registerUser);
 router.post('/users/login', userController.loginUser);
 

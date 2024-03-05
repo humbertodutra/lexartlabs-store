@@ -32,7 +32,7 @@ const loginUser = async (userData) => {
 
   const secretKey = process.env.MY_SECRET
   const token = jwt.sign({ userId: user.id }, secretKey, { expiresIn: '2h' });
-  const message = {token: token} 
+  const message = {email, token: token} 
 
   return message;
 };
