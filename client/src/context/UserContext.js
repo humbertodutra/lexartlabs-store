@@ -16,7 +16,7 @@ export function UserProvider({ children }) {
       console.log('token', token)
 
       try {
-        const response = await fetch(`http://localhost:5000/api/users/verifyToken`, {
+        const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/users/verifyToken`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

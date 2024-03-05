@@ -10,7 +10,7 @@ function ProductsDisplay({ products, onEdit, onDelete, user, setProducts }) {
 
   const handleSave = async (updatedProduct) => {
   
-    const response = await fetch(`http://localhost:5000/api/products/${updatedProduct.productId}`, {
+    const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/products/${updatedProduct.productId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ function ProductsDisplay({ products, onEdit, onDelete, user, setProducts }) {
     const confirmDelete = window.confirm("Are you sure you want to delete this product?");
     if (confirmDelete) {
       try {
-        const response = await fetch(`http://localhost:5000/api/products/${productId}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/products/${productId}`, {
           method: 'DELETE',
           headers: {
             'Authorization': user.token, // Make sure the authorization token is included

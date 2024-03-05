@@ -1,17 +1,20 @@
+import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import { useUser } from '../../context/UserContext';
 
 function LoginForm() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { login } = useUser(); 
+  const { login, setIsLogged } = useUser(); 
 
 
 const handleLoginSubmit = async (e) => {
+
     e.preventDefault();
   
     try {
-      const response = await fetch(`http://localhost:5000/api/users/login`, {
+      const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -20,15 +23,18 @@ const handleLoginSubmit = async (e) => {
       });
 
       if (!response.ok) {
-        throw new Error('Falha no login!');
+        throw new Error('Login Failed');
       }
 
       const data = await response.json();
       console.log(data);
       login(data);
+      setIsLogged(true);
+      alert("Login successfully");
+      navigate('/dashboard');
 
     } catch (error) {
-      console.error('Erro ao fazer login:', error);
+      console.error('Error when logging in', error);
       alert(error.message);
   
     }

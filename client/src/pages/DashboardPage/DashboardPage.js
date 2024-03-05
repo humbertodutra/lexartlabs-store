@@ -2,18 +2,22 @@ import React, { useState, useEffect } from 'react';
 import ProductsDisplay from '../../components/ProductDisplay/ProductDisplay';
 import { useUser } from '../../context/UserContext';
 import AddProduct from '../../components/AddProduct/AddProduct';
+import { useNavigate } from 'react-router-dom';
+
 
 function DashboardPage() {
-  const [products, setProducts] = useState([]);
-  const { user } = useUser();
-
+    const [products, setProducts] = useState([]);
+    const { user } = useUser();
+    const navigate = useNavigate();
+    
   useEffect(() => {
     console.log('userrrrrrrrrrrrrrrrr', user);
    
 
 const fetchProducts = async () => {
   if (user && user.token) {
-    const response = await fetch('http://localhost:5000/api/products/', {
+    console.log('api', process.env.API_ENDPOINT)
+    const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/products/`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -42,6 +46,10 @@ const fetchProducts = async () => {
     }
   }, [user]);
 
+  const handleBackToLogin = () => {
+    navigate('/');
+  };
+
   return (
     <div>
       <h1>Dashboard</h1>
@@ -51,7 +59,10 @@ const fetchProducts = async () => {
         <ProductsDisplay products={products} user={user} setProducts={setProducts} />
         </>
       ) : (
+        <>
         <p>Você precisa estar logado para ver os produtos.</p>
+        <button onClick={handleBackToLogin}>Back To Login Page</button>
+        </>
       )}
     </div>
   );
