@@ -2,44 +2,34 @@ const { Product, Variation } = require('../models');
 
 const addProduct = async (productData) => {
 	try {
-		if (Array.isArray(productData)) {
-			for (const item of productData) {
-				const product = await Product.create({
-					name: item.name,
-					brand: item.brand,
-					model: item.model
-				});
-				if (item.data) {
-					for (const variation of item.data) {
-						await Variation.create({
-							productId: product.productId,
-							color: variation.color,
-							price: variation.price
-						});
-					}
-				}
-			}
-		} else {
-			let productDetails = {};
-			let variations = [];
+		let createdProduct;
 
-			if (productData.details) {
-				productDetails = {
-					name: productData.name,
-					brand: productData.details.brand,
-					model: productData.details.model
-				};
-				variations.push({ color: productData.details.color, price: productData.price });
-			} else {
-				productDetails = {
-					name: productData.name,
-					brand: productData.brand,
-					model: productData.model
-				};
-				variations.push({ color: productData.color, price: productData.price });
+		if (Array.isArray(productData)) {
+			const lastItem = productData[productData.length - 1];
+			const product = await Product.create({
+				name: lastItem.name,
+				brand: lastItem.brand,
+				model: lastItem.model
+			});
+			for (const variation of lastItem.data || []) {
+				await Variation.create({
+					productId: product.productId,
+					color: variation.color,
+					price: variation.price
+				});
 			}
+			createdProduct = product;
+		} else {
+			const productDetails = {
+				name: productData.name,
+				brand: productData.details ? productData.details.brand : productData.brand,
+				model: productData.details ? productData.details.model : productData.model
+			};
 
 			const product = await Product.create(productDetails);
+
+			const variations = productData.Variations || [{ color: productData.color, price: productData.price }];
+
 			for (const variation of variations) {
 				await Variation.create({
 					productId: product.productId,
@@ -47,11 +37,22 @@ const addProduct = async (productData) => {
 					price: variation.price
 				});
 			}
+			createdProduct = product;
 		}
+
+		
+		const fullProductDetails = await Product.findByPk(createdProduct.productId, {
+			include: [{ model: Variation, as: 'Variations' }]
+		});
+
+		console.log('fullProductDetails', fullProductDetails);
+
+		return fullProductDetails;
 	} catch (error) {
 		throw new Error('Error adding product with variations: ' + error.message);
 	}
 };
+
 
 const getProducts = async () => {
 	const products = await Product.findAll({
@@ -108,7 +109,6 @@ const getProductById = async (productId) => {
 				if (productData.Variations && Array.isArray(productData.Variations)) {
 					variations = productData.Variations;
 				} else {
-					// If not, construct the variations array from other properties as before
 					variations = [{
 						color: productData.details ? productData.details.color : productData.color,
 						price: productData.price
