@@ -7,7 +7,7 @@ const registerUser = async (req, res) => {
 		if (!email || !password) {
 			return res.status(400).json({ message: 'Email and password are required.' });
 		}
-
+    
 		const existingUser = await userService.findUserByEmail(email);
 		if (existingUser) {
 			return res.status(409).json({ message: 'User with this email already exists.' });
