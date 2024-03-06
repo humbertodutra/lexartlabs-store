@@ -1,57 +1,67 @@
 const { Product, Variation } = require('../models');
 
 const addProduct = async (productData) => {
-	try {
-		let createdProduct;
+    try {
+        let createdProducts = []; // Use an array to handle both single and multiple product scenarios
 
-		if (Array.isArray(productData)) {
-			const lastItem = productData[productData.length - 1];
-			const product = await Product.create({
-				name: lastItem.name,
-				brand: lastItem.brand,
-				model: lastItem.model
-			});
-			for (const variation of lastItem.data || []) {
-				await Variation.create({
-					productId: product.productId,
-					color: variation.color,
-					price: variation.price
-				});
-			}
-			createdProduct = product;
-		} else {
-			const productDetails = {
-				name: productData.name,
-				brand: productData.details ? productData.details.brand : productData.brand,
-				model: productData.details ? productData.details.model : productData.model
-			};
+        if (Array.isArray(productData)) {
+            for (const item of productData) {
+                const product = await Product.create({
+                    name: item.name,
+                    brand: item.brand,
+                    model: item.model
+                });
+                for (const variation of item.data || []) {
+                    await Variation.create({
+                        productId: product.productId,
+                        color: variation.color,
+                        price: variation.price
+                    });
+                }
+                createdProducts.push(product); // Add each created product to the array
+            }
+        } else {
+            const productDetails = {
+                name: productData.name,
+                brand: productData.details ? productData.details.brand : productData.brand,
+                model: productData.details ? productData.details.model : productData.model
+            };
 
-			const product = await Product.create(productDetails);
+            const product = await Product.create(productDetails);
 
-			const variations = productData.Variations || [{ color: productData.color, price: productData.price }];
+            // Check for 'Variations' in productData and handle it
+            const variations = productData.Variations || productData.data || [{
+                color: productData.details && productData.details.color ? productData.details.color : productData.color,
+                price: productData.price
+            }];
 
-			for (const variation of variations) {
-				await Variation.create({
-					productId: product.productId,
-					color: variation.color,
-					price: variation.price
-				});
-			}
-			createdProduct = product;
-		}
+            for (const variation of variations) {
+                await Variation.create({
+                    productId: product.productId,
+                    color: variation.color,
+                    price: variation.price
+                });
+            }
+            createdProducts.push(product); // Add the single created product to the array
+        }
 
-		
-		const fullProductDetails = await Product.findByPk(createdProduct.productId, {
-			include: [{ model: Variation, as: 'Variations' }]
-		});
+        // Fetch full details for the created product(s)
+        const fullProductDetails = await Promise.all(createdProducts.map(async (product) => {
+            return await Product.findByPk(product.productId, {
+                include: [{ model: Variation, as: 'Variations' }]
+            });
+        }));
 
-		console.log('fullProductDetails', fullProductDetails);
+        console.log('fullProductDetails', fullProductDetails);
 
-		return fullProductDetails;
-	} catch (error) {
-		throw new Error('Error adding product with variations: ' + error.message);
-	}
+        // If only one product was created, return the single product detail, otherwise return all
+        return createdProducts.length === 1 ? fullProductDetails[0] : fullProductDetails;
+    } catch (error) {
+        throw new Error('Error adding product with variations: ' + error.message);
+    }
 };
+
+
 
 
 const getProducts = async () => {
