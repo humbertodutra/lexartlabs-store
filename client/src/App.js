@@ -4,6 +4,7 @@ import DashboardPage from './pages/DashboardPage/DashboardPage';
 import LoginPage from './pages/AuthPage/AuthPage';
 import { UserProvider } from './context/UserContext';
 
+
 function App() {
   return (
     <UserProvider>

@@ -39,25 +39,40 @@ function SignupForm({ onSignupSuccess }) {
 	};
 
 	return (
-		<form onSubmit={handleSignupSubmit}>
-			<div>
+		<form onSubmit={handleSignupSubmit} className="auth-form-container">
+			<div className="auth-form-group">
 				<label>Email:</label>
-				<input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+				<input
+					type="email"
+					className="auth-form-input"
+					value={email}
+					onChange={(e) => setEmail(e.target.value)}
+					required
+				/>
 			</div>
-			<div>
+			<div className="auth-form-group">
 				<label>Password:</label>
-				<input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+				<input
+					type="password"
+					className="auth-form-input"
+					value={password}
+					onChange={(e) => setPassword(e.target.value)}
+					required
+				/>
 			</div>
-			<div>
+			<div className="auth-form-group">
 				<label>Confirm your password:</label>
 				<input
 					type="password"
+					className="auth-form-input"
 					value={confirmPassword}
 					onChange={(e) => setConfirmPassword(e.target.value)}
 					required
 				/>
 			</div>
-			<button type="submit">Register</button>
+			<button type="submit" className="auth-button">
+				Register
+			</button>
 		</form>
 	);
 }

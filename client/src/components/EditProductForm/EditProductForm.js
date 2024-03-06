@@ -39,14 +39,21 @@ function EditProductForm({ productDetails, onSave, onCancel }) {
 
   return (
     <div className="edit-product-form">
+      <p>Name:</p>
       <input name="name" value={product.name || ''} onChange={handleProductChange} placeholder="Name" />
+      <p>Brand:</p>
       <input name="brand" value={product.brand || ''} onChange={handleProductChange} placeholder="Brand" />
+      <p>Model:</p>
       <input name="model" value={product.model || ''} onChange={handleProductChange} placeholder="Model" />
 
       <div>
+        
         {product.Variations && product.Variations.map((variation, index) => (
           <div key={index}>
+            <p>Variation {index + 1}</p>
+            <p>Color:</p>
             <input name={`color-${index}`} value={variation.color || ''} onChange={(e) => handleVariationChange(index, 'color', e.target.value)} placeholder="Color" />
+            <p>Price:</p>
             <input name={`price-${index}`} type="number" value={variation.price || 0} onChange={(e) => handleVariationChange(index, 'price', parseInt(e.target.value, 10))} placeholder="Price" />
             <button type="button" onClick={() => handleRemoveVariation(index)}>Remove Variation</button>
           </div>

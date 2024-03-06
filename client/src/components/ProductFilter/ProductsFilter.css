@@ -1,0 +1,61 @@
+.products-filter-container {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    background-color: #f2f2f2;
+  }
+  
+  .filter-group {
+    margin-bottom: 10px;
+  }
+  
+  .filter-label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .filter-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .filter-apply-btn,
+  .filter-clear-btn {
+    padding: 10px;
+    margin-top: 10px;
+    width: 100%;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .filter-apply-btn {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .filter-clear-btn {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .filter-apply-btn:hover {
+    background-color: #45a049;
+  }
+  
+  .filter-clear-btn:hover {
+    background-color: #d32f2f;
+  }
+
+  .filter-select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  

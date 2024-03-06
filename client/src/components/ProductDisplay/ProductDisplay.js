@@ -3,6 +3,11 @@ import EditProductForm from '../EditProductForm/EditProductForm';
 
 function ProductsDisplay({ products, onEdit, onDelete, user, setProducts }) {
 	const [ editingProductId, setEditingProductId ] = useState(null);
+  const [ detailsShownProductId, setDetailsShownProductId ] = useState(null);
+  const toggleDetails = (productId) => {
+		setDetailsShownProductId(detailsShownProductId === productId ? null : productId);
+	};
+
 
 	const handleEdit = (productId) => {
 		setEditingProductId(productId);
@@ -57,28 +62,34 @@ function ProductsDisplay({ products, onEdit, onDelete, user, setProducts }) {
 	};
 
 	return (
-		<div>
+<div className="products-container">
 			{products.map((product) => (
-				<div key={product.productId}>
+				<div key={product.productId} className="product-row">
 					<h2>{product.name}</h2>
-					<p>Brand: {product.brand}</p>
-					<p>Model: {product.model}</p>
-					{product.Variations.map((variation, index) => (
-						<div key={index}>
-							<p>Color: {variation.color}</p>
-							<p>Price: {variation.price} Euros</p>
-						</div>
-					))}
-					<button onClick={() => handleEdit(product.productId)}>Edit</button>
-					<button onClick={() => handleDelete(product.productId)}>Delete</button>
-					{/* Render EditProductForm below the buttons for the currently editing product */}
-					{editingProductId === product.productId && (
-						<EditProductForm productDetails={product} onSave={handleSave} onCancel={handleCancel} />
+					<button onClick={() => toggleDetails(product.productId)}>
+						{detailsShownProductId === product.productId ? 'Hide Details' : 'Show Details'}
+					</button>
+					{detailsShownProductId === product.productId && (
+						<>
+							<p>Brand: {product.brand}</p>
+							<p>Model: {product.model}</p>
+							{product.Variations.map((variation, index) => (
+								<div key={index} className="product-variation">
+									<p>Color: {variation.color}</p>
+									<p>Price: {variation.price} Euros</p>
+								</div>
+							))}
+							<button className="edit-btn" onClick={() => handleEdit(product.productId)}>Edit</button>
+							<button className="delete-btn" onClick={() => handleDelete(product.productId)}>Delete</button>
+							{/* Conditionally render EditProductForm */}
+							{editingProductId === product.productId && (
+								<EditProductForm productDetails={product} onSave={handleSave} onCancel={handleCancel} />
+							)}
+						</>
 					)}
 				</div>
 			))}
-		</div>
-	);
+		</div>)
 }
 
 export default ProductsDisplay;

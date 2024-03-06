@@ -3,10 +3,13 @@ import ProductsDisplay from '../../components/ProductDisplay/ProductDisplay';
 import { useUser } from '../../context/UserContext';
 import AddProduct from '../../components/AddProduct/AddProduct';
 import { useNavigate } from 'react-router-dom';
+import './DashboardPage.css';
+import ProductsFilter from '../../components/ProductFilter/ProductFilter';
 
 
 function DashboardPage() {
     const [products, setProducts] = useState([]);
+    const [filtredProducts, setFiltredProducts] = useState([]);
     const { user } = useUser();
     const navigate = useNavigate();
     
@@ -33,6 +36,7 @@ const fetchProducts = async () => {
 
     const data = await response.json();
     setProducts(data);
+    setFiltredProducts(data);
   } else {
     console.log("User token not available");
   
@@ -49,20 +53,21 @@ const fetchProducts = async () => {
   };
 
   return (
-    <div>
-      <h1>Dashboard</h1>
-      {user ? (
+    <div className="dashboard-container"> {/* Added class name for styling */}
+    <h1>Dashboard</h1>
+    {user ? (
+       <div>
+            <AddProduct setProducts={setProducts} user={user} />
+            <ProductsFilter allProducts={products} filtredProducts={filtredProducts} setFiltredProducts={setFiltredProducts} />
+            <ProductsDisplay products={filtredProducts} user={user} setProducts={setProducts} />
+      </div>
+    ) : (
         <>
-        <AddProduct setProducts={setProducts} user={user} />
-        <ProductsDisplay products={products} user={user} setProducts={setProducts} />
+            <p>You need to be logged in to view the products</p>
+            <button onClick={handleBackToLogin} className="back-to-login-btn">Back To Login Page</button>
         </>
-      ) : (
-        <>
-        <p>You need to be logged in to view the products</p>
-        <button onClick={handleBackToLogin}>Back To Login Page</button>
-        </>
-      )}
-    </div>
+    )}
+</div>
   );
 }
 

@@ -35,7 +35,7 @@ function AddProduct({ setProducts, user }) {
       const createdProduct = await response.json()
       setProducts(prevProducts => [...prevProducts, createdProduct]);
       setNewProduct({ name: '', brand: '', model: '', color: '', price: '' }); // Reset form fields
-      setShowForm(false); // Hide form after successful submission
+      setShowForm(false);
       alert("Product added successfully");
     } else {
       console.error("Failed to add product:", await response.text());
@@ -43,19 +43,29 @@ function AddProduct({ setProducts, user }) {
   };
 
   return (
-    <div>
-      <button onClick={() => setShowForm(!showForm)}>
+    <div className="add-product-container">
+      <button className="toggle-form-btn" onClick={() => setShowForm(!showForm)}>
         {showForm ? 'Hide Add Product Form' : 'Show Add Product Form'}
       </button>
-      
+
       {showForm && (
-        <form onSubmit={handleSubmit}>
-          <input name="name" value={newProduct.name} onChange={handleChange} placeholder="Name" required />
-          <input name="brand" value={newProduct.brand} onChange={handleChange} placeholder="Brand" required />
-          <input name="model" value={newProduct.model} onChange={handleChange} placeholder="Model" required />
-          <input name="color" value={newProduct.color} onChange={handleChange} placeholder="Color" required />
-          <input name="price" type="number" value={newProduct.price} onChange={handleChange} placeholder="Price" required />
-          <button type="submit">Add Product</button>
+        <form onSubmit={handleSubmit} className="add-product-form">
+          <div className="form-group">
+            <input name="name" value={newProduct.name} onChange={handleChange} placeholder="Name" required />
+          </div>
+          <div className="form-group">
+            <input name="brand" value={newProduct.brand} onChange={handleChange} placeholder="Brand" required />
+          </div>
+          <div className="form-group">
+            <input name="model" value={newProduct.model} onChange={handleChange} placeholder="Model" required />
+          </div>
+          <div className="form-group">
+            <input name="color" value={newProduct.color} onChange={handleChange} placeholder="Color" required />
+          </div>
+          <div className="form-group">
+            <input name="price" type="number" value={newProduct.price} onChange={handleChange} placeholder="Price" required />
+          </div>
+          <button type="submit" className="submit-btn">Add Product</button>
         </form>
       )}
     </div>
