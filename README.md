@@ -18,6 +18,7 @@ Clone the repository:
 
 ```bat
 git clone git@github.com:humbertodutra/lexartlabs-store.git
+cd lexartlabs-store
 cd server
 npm install
 ```
@@ -205,23 +206,22 @@ Successful Response:
 
 # FRONTEND
 
-### 1. Description
-A brief description of what the application does and the problem it solves. This fronetend serves as the core of the `lexartlabs-store`
 
-### 2. Technologies Used
+### 1. Technologies Used
 - React.js
 - JS
 
-### 3. Setup Instructions
+### 2. Setup Instructions
 
 Clone the repository:
 
 ```bat
 git clone git@github.com:humbertodutra/lexartlabs-store.git
+cd lexartlabs-store
 cd client
 npm install
 ```
-### 4. Start the server
+### 3. Start the server
 
 ```bat
 npm start
