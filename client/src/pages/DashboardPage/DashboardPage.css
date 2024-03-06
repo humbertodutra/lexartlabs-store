@@ -78,6 +78,26 @@ h1 {
 
 /* EditProductForm.css */
 
+#edit-remove-variation{
+  background-color: #dc3545; /* Red for delete */
+  color: white;
+  cursor: pointer;
+}
+
+#edit-remove-variation:hover {
+  background-color: #84121d; /* Darker red for delete */
+}
+
+#edit-add-variation {
+  background-color: #28a745; /* Green for add */
+  color: white;
+  cursor: pointer;
+}
+
+#edit-add-variation:hover {
+  background-color: #218838; /* Darker green for add */
+}
+
 .edit-product-form {
   background-color: #f8f9fa;
   padding: 20px;
@@ -98,14 +118,14 @@ h1 {
   margin-top: 5px;
   margin-bottom: 10px;
   cursor: pointer;
-  background-color: #8eedb1; /* Green for save */
+  background-color: #8ebded; /* Green for save */
 
   
 }
 .edit-product-form button {
   padding: 10px;
   margin-top: 10px;
-  background-color: #28a745; /* Green for save */
+  background-color: #5d28a7; /* Green for save */
   color: white;
 }
 
@@ -126,3 +146,169 @@ h1 {
       width: 100%;
   }
 }
+
+.toggle-form-btn {
+  background-color: #4a2188;
+  color: white; 
+  cursor: pointer;
+  padding: 10px 20px;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 1px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  outline: none;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+.toggle-form-btn:hover, .toggle-form-btn:focus {
+  background-color: #381670;
+  border-color: #ffffff;
+  box-shadow: 0 0 8px rgba(74, 33, 136, 0.5);
+}
+
+
+
+.edit-product-form, .add-product-form {
+    max-width: 500px;
+    
+    
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .edit-product-form p, .add-product-form p {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  .edit-product-form input, .add-product-form input {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .edit-product-form button, .add-product-form button {
+    cursor: pointer;
+    padding: 10px 15px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 5px;
+  
+    color: #ffffff;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .edit-product-form button:hover, .add-product-form button:hover {
+    background-color: #151515;
+  }
+  
+  .remove-variation-btn {
+    background-color: #dc3545;
+   
+  }
+  
+  .remove-variation-btn:hover {
+    background-color: #c82333;
+  }
+  
+  .add-variation-btn {
+    background-color: #28a745;
+  }
+  
+  .add-variation-btn:hover {
+    background-color: #218838;
+  }
+  
+  .variation-group {
+    margin-bottom: 20px;
+   
+    background: #ffffff;
+    border: 1px solid #eee;
+    border-radius: 5px;
+  }
+  
+  .variation-group p {
+    margin-top: 0;
+  }
+
+#submit-btn-product {
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+  }
+
+    #submit-btn-product:hover {
+        background-color: #213c88;
+    }
+
+    .products-filter-container {
+      display: flex;
+      flex-direction: column;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      background-color: #f2f2f2;
+    }
+    
+    .filter-group {
+      margin-bottom: 10px;
+    }
+    
+    .filter-label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    
+    .filter-input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    
+    .filter-apply-btn,
+    .filter-clear-btn {
+      padding: 10px;
+      margin-top: 10px;
+      width: 100%;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    .filter-apply-btn {
+      background-color: #4CAF50;
+      color: white;
+    }
+    
+    .filter-clear-btn {
+      background-color: #f44336;
+      color: white;
+    }
+    
+    .filter-apply-btn:hover {
+      background-color: #45a049;
+    }
+    
+    .filter-clear-btn:hover {
+      background-color: #d32f2f;
+    }
+  
+    .filter-select {
+      width: 100%;
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    

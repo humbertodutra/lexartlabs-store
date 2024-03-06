@@ -25,7 +25,8 @@ function ProductsDisplay({ products, onEdit, onDelete, user, setProducts }) {
 
 		if (response.ok) {
 			alert('Product updated successfully');
-		} else {
+			setProducts((prevProducts) => prevProducts.map((product) => (product.productId === updatedProduct.productId ? updatedProduct : product)));
+			setEditingProductId(null); 
 			console.error('Failed to update product:', await response.text());
 		}
 	};
