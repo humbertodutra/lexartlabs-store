@@ -57,9 +57,9 @@ const fetchProducts = async () => {
     <h1>Dashboard</h1>
     {user ? (
        <div>
-            <AddProduct setProducts={setProducts} user={user} />
+            <AddProduct setProducts={setFiltredProducts} user={user} />
             <ProductsFilter allProducts={products} filtredProducts={filtredProducts} setFiltredProducts={setFiltredProducts} />
-            <ProductsDisplay products={filtredProducts} user={user} setProducts={setProducts} />
+            <ProductsDisplay products={filtredProducts} user={user} setProducts={setFiltredProducts} />
       </div>
     ) : (
         <>

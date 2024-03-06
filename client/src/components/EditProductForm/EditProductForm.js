@@ -55,7 +55,7 @@ function EditProductForm({ productDetails, onSave, onCancel }) {
             <input name={`color-${index}`} value={variation.color || ''} onChange={(e) => handleVariationChange(index, 'color', e.target.value)} placeholder="Color" />
             <p>Price:</p>
             <input name={`price-${index}`} type="number" value={variation.price || 0} onChange={(e) => handleVariationChange(index, 'price', parseInt(e.target.value, 10))} placeholder="Price" />
-            <button type="button" onClick={() => handleRemoveVariation(index)}>Remove Variation</button>
+            <button type="button" onClick={() => handleRemoveVariation(index)}>Remove Variation {index + 1}</button>
           </div>
         ))}
         <button type="button" onClick={handleAddVariation}>Add Variation</button>

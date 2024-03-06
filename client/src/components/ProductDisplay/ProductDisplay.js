@@ -73,8 +73,10 @@ function ProductsDisplay({ products, onEdit, onDelete, user, setProducts }) {
 						<>
 							<p>Brand: {product.brand}</p>
 							<p>Model: {product.model}</p>
+							
 							{product.Variations.map((variation, index) => (
 								<div key={index} className="product-variation">
+									<h4>Variation {index + 1}</h4>
 									<p>Color: {variation.color}</p>
 									<p>Price: {variation.price} Euros</p>
 								</div>
