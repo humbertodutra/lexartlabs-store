@@ -1,5 +1,10 @@
 # lexartlabs-store
 
+You can see it alive at:
+
+https://lexartlabs-store-client.vercel.app/ (FRONT)
+https://lexartlabs-store-server.vercel.app/ (API)
+
 ## BACKEND
 
 ### 1. Description
