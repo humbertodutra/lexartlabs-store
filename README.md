@@ -16,6 +16,7 @@ A brief description of what the application does and the problem it solves. This
 - Vercel Postgres
 - Sequelize
 - JWT for authentication
+- bcrypt
 
 ### 3. Setup Instructions
 
